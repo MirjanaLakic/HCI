@@ -8,14 +8,13 @@
                 <DockPanel>
                     <Border BorderThickness="0 0 1 0" BorderBrush="Black">
                         <StackPanel DockPanel.Dock="Left" Width="240">
-                            <Button Content="Library" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
+                            <Button Content="Library" Click="Button_Click" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
                             <Button Content="Open Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
                             <Button Content="Import Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
                         </StackPanel>
                     </Border>
-                        <StackPanel DockPanel.Dock="Right">
-
-                        </StackPanel>
+                    <TextBox x:Name="textBox1" DockPanel.Dock="Right" BorderThickness="0 0 0 0">
+                    </TextBox>
                 </DockPanel>
             </TabItem>
             <TabItem Header="Tools" Width="100">

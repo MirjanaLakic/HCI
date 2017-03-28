@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+
 
 namespace citanjeKnjiga
 {
@@ -24,9 +26,13 @@ namespace citanjeKnjiga
             InitializeComponent();
         }
 
-        private void Tools_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            string[] readtext = File.ReadAllLines("book.txt");
+            foreach (string s in readtext)
+            {
+                textBox1.Text += s + "\n";
+            }
         }
     }
 }
