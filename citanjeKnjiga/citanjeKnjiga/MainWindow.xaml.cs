@@ -44,7 +44,7 @@ namespace citanjeKnjiga
             openFileDialog.Filter = "Text files (*.txt)|*.txt";
             if (openFileDialog.ShowDialog() == true)
             {
-                openBook(openFileDialog.FileName);
+                
             }
         }
 

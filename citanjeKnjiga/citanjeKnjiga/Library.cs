@@ -19,7 +19,7 @@ namespace citanjeKnjiga
         {
             this.books = new List<Book>();
             this.recentlyRead = new List<Book>();
-            StreamReader sr = new StreamReader("books.txt");
+            StreamReader sr = new StreamReader("../../books.txt");
             string line;
             while ((line = sr.ReadLine()) != null)
             {
