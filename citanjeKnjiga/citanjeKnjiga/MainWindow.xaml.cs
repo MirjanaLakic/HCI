@@ -77,6 +77,7 @@ namespace citanjeKnjiga
             if (openFileDialog.ShowDialog() == true)
             {
                 openBook(openFileDialog.FileName);
+                this.Lib.importBook(openFileDialog.FileName);
             }
         }
 
