@@ -26,14 +26,5 @@ namespace citanjeKnjiga
             InitializeComponent();
             
         }
-        private void loadBooks(object sender, RoutedEventArgs e)
-        {
-            DirectoryInfo dinfo = new DirectoryInfo("E:/FAX/HCI/citanjeKnjiga/citanjeKnjiga/books");
-            FileInfo[] files = dinfo.GetFiles("*.txt");
-            foreach (FileInfo file in files)
-            {
-                ListBox1.Items.Add(file.Name);
-            }
-        }
     }
 }
