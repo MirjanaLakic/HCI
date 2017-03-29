@@ -1,7 +1,7 @@
 ﻿<Window x:Class="citanjeKnjiga.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Reading Is Fun" WindowState="Maximized" Height="860" Width="1600" Background="#E5E7E9">
+        Title="Reading Is Fun" WindowState="Maximized" Height="860" Width="1600" Background="#D4D0C8">
     <DockPanel>
         <DockPanel Background="#E5E7E9" DockPanel.Dock="Left">
             <StackPanel Width="340">
@@ -16,12 +16,34 @@
                 <Separator/>
             </StackPanel>
         </DockPanel>
-        <DockPanel Name="rightPannel" Background="#E5E7E9" DockPanel.Dock="Right">
-            <FlowDocumentReader x:Name="docRead">
-                <FlowDocument>
-                    <Paragraph x:Name="showBook"></Paragraph>
-                </FlowDocument>
-            </FlowDocumentReader>
+        <DockPanel Name="rightPannel" DockPanel.Dock="Right">
+            <DockPanel DockPanel.Dock="Top">
+                <DockPanel DockPanel.Dock="Left" Margin="0 10 0 10 ">
+                    <Label>Search library books:</Label>
+                </DockPanel>
+                <TextBox DockPanel.Dock="Right" Margin="0 10 10 10" TextChanged="TextBox_TextChanged"></TextBox>
+            </DockPanel>
+            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Recently Read"  Binding="{Binding Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Name="DG2" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Recently Inserted"  Binding="{Binding Name}" Width="*">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Name="DG3" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Favorites"  Binding="{Binding Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <DataGrid Name="DG4" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Book Library"  Binding="{Binding Name}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </DockPanel>
     </DockPanel>
 

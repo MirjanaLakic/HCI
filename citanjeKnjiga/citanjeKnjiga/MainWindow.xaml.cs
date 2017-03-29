@@ -51,5 +51,10 @@ namespace citanjeKnjiga
             this.Content = read;
 
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
