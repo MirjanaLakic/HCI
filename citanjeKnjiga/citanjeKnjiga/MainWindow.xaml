@@ -7,6 +7,15 @@
             <Border BorderThickness="0 0 1 0" BorderBrush="Black">
                 <StackPanel DockPanel.Dock="Left" Width="240">
                     <Button x:Name="LibraryButton" Content="Library" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Width="239" Background="#D7DBDD" />
+                    <Button x:Name="openBookButton" Content="Open Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Width="239" Background="#E5E7E9" />
+                    <Button x:Name="ImportBookButton" Content="Import Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Width="239" Background="#E5E7E9" />
+                    <Button x:Name="ImportAndOpenButton" Content="Import and Open Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Width="239" Background="#E5E7E9" />
+                    <Border BorderThickness="0 1 0 0" BorderBrush="Black">
+                        <StackPanel Height="215">
+                            <Button x:Name="AddToFavourite" Content="Add to Favourite" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Width="239" IsEnabled="False" Background="#E5E7E9" />
+                            <Button x:Name="RemoveFromFavourite" Content="Remove from Favourite" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Width="239" IsEnabled="False" Background="#E5E7E9" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Border>
             <FlowDocumentReader>
@@ -17,5 +26,5 @@
             </FlowDocumentReader>
         </DockPanel>
     </Grid>
-        
+
 </Window>
