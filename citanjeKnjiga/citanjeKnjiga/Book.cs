@@ -38,7 +38,8 @@ namespace citanjeKnjiga
             get { return recentlyAdded; }
             set { recentlyAdded = value; }
         }
-        
+
+        public int marker { get; set; }
 
         public Book(string name, bool favorite, bool recently, bool recentlyAdded)
         {

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using Microsoft.Win32;
 
 
 namespace citanjeKnjiga
@@ -25,6 +26,30 @@ namespace citanjeKnjiga
         {
             InitializeComponent();
             
+        }
+
+        private void btnOpenFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                openBook(openFileDialog.FileName);
+            }
+        }
+
+        public void openBook(string path)
+        {
+            StreamReader sr = new StreamReader(path);
+            string book = sr.ReadToEnd();
+            Paragraph p = new Paragraph();
+            p.Inlines.Add(new Run(book));
+            FlowDocument doc = new FlowDocument();
+            doc.Blocks.Add(p);
+            FlowDocumentReader read = new FlowDocumentReader();
+            read.Document = doc;
+            this.Content = read;
+
         }
     }
 }
