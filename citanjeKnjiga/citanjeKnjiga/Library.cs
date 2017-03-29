@@ -8,8 +8,8 @@ namespace citanjeKnjiga
 {
     class Library
     {
-        List<Book> books;
-        List<Book> recentlyRead;
+        public List<Book> books;
+        public List<Book> recentlyRead;
 
         public Library()
         {
@@ -48,5 +48,26 @@ namespace citanjeKnjiga
                 }
             }
         }
+
+        public void importBook(string path)
+        {
+            string[] parts = path.Split('\\');
+            int index = parts.Length;
+            string name = parts[index - 1];
+            string targetPath = Directory.GetCurrentDirectory();
+            string sourcePath = "";
+            foreach (string part in parts)
+            {
+                sourcePath += part;
+                sourcePath += "\\";
+            }
+            string sourceFile = Path.Combine(sourcePath,name);
+            string targetFile = Path.Combine(targetPath, name);
+            File.Copy(sourceFile, targetFile, true);
+
+            Book book = new Book(name, false, false, true);
+            books.Add(book);
+        }
+        
     }
 }
