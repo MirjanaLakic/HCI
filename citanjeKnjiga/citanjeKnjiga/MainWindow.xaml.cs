@@ -23,16 +23,17 @@ namespace citanjeKnjiga
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Library Lib { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            Library lib = new Library();
-            lib.Load();
+            Library Lib = new Library();
+            Lib.Load();
             ObservableCollection<Book> listRecentRead = new ObservableCollection<Book>();
             ObservableCollection<Book> listRecentImported = new ObservableCollection<Book>();
             ObservableCollection<Book> listFavorites = new ObservableCollection<Book>();
             ObservableCollection<Book> listBooks = new ObservableCollection<Book>();
-            foreach(Book b in lib.books){
+            foreach(Book b in Lib.books){
                 listBooks.Add(b);
                 if(b.RecentlyAdded)
                     listRecentImported.Add(b);
