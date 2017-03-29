@@ -54,19 +54,22 @@ namespace citanjeKnjiga
             string[] parts = path.Split('\\');
             int index = parts.Length;
             string name = parts[index - 1];
-            string targetPath = Directory.GetCurrentDirectory();
+            string targetPath = "..\\..\\books";
             string sourcePath = "";
             foreach (string part in parts)
             {
-                sourcePath += part;
-                sourcePath += "\\";
+                if (!part.Equals(name))
+                {
+                    sourcePath += part;
+                    sourcePath += "\\";
+                }
             }
-            string sourceFile = Path.Combine(sourcePath,name);
+            string sourceFile = Path.Combine(sourcePath, name);
             string targetFile = Path.Combine(targetPath, name);
             File.Copy(sourceFile, targetFile, true);
 
             Book book = new Book(name, false, false, true);
-            books.Add(book);
+            this.books.Add(book);
         }
         
     }
