@@ -24,14 +24,15 @@ namespace citanjeKnjiga
         public MainWindow()
         {
             InitializeComponent();
+            
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void loadBooks(object sender, RoutedEventArgs e)
         {
-            string[] readtext = File.ReadAllLines("book.txt");
-            foreach (string s in readtext)
+            DirectoryInfo dinfo = new DirectoryInfo("E:/FAX/HCI/citanjeKnjiga/citanjeKnjiga/books");
+            FileInfo[] files = dinfo.GetFiles("*.txt");
+            foreach (FileInfo file in files)
             {
-                textBox1.Text += s + "\n";
+                ListBox1.Items.Add(file.Name);
             }
         }
     }

@@ -8,13 +8,13 @@
                 <DockPanel>
                     <Border BorderThickness="0 0 1 0" BorderBrush="Black">
                         <StackPanel DockPanel.Dock="Left" Width="240">
-                            <Button Content="Library" Click="Button_Click" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
+                            <Button x:Name="LibraryButton" Content="Library" Click="loadBooks" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
                             <Button Content="Open Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
                             <Button Content="Import Book" Height="30" BorderThickness="0" Margin="0 40 0 0" FontSize="20" Background="White" />
                         </StackPanel>
                     </Border>
-                    <TextBox x:Name="textBox1" DockPanel.Dock="Right" BorderThickness="0 0 0 0">
-                    </TextBox>
+                    <ListBox x:Name="ListBox1" DockPanel.Dock="Right" BorderThickness="0 0 0 0">
+                    </ListBox>
                 </DockPanel>
             </TabItem>
             <TabItem Header="Tools" Width="100">
@@ -39,4 +39,5 @@
             </TabItem>
         </TabControl>
     </Grid>
+        
 </Window>
