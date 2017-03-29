@@ -1,0 +1,17 @@
+clone, cd u sok folder
+i onda git checkout testGrana
+
+
+git add *
+git commit -m "poruka"
+git push origin testGrana
+
+
+
+cd core
+python manage.py makemigrations myapp
+python manage.py sqlmigrate myapp 0001
+python manage.py migrate
+
+
+/ftn-ai-lab/ori-2016-e2

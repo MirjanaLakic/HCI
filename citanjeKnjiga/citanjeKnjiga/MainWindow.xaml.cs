@@ -66,7 +66,7 @@ namespace citanjeKnjiga
             openFileDialog.Filter = "Text files (*.txt)|*.txt";
             if (openFileDialog.ShowDialog() == true)
             {
-                
+                this.Lib.importBook(openFileDialog.FileName);
             }
         }
 
@@ -77,6 +77,7 @@ namespace citanjeKnjiga
             if (openFileDialog.ShowDialog() == true)
             {
                 openBook(openFileDialog.FileName);
+                this.Lib.importBook(openFileDialog.FileName);
             }
         }
 
