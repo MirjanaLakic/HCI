@@ -40,6 +40,7 @@ namespace citanjeKnjiga
 
         public void openBook(string path)
         {
+            this.rightPannel.Children.Clear();
             StreamReader sr = new StreamReader(path);
             string book = sr.ReadToEnd();
             Paragraph p = new Paragraph();
@@ -48,7 +49,7 @@ namespace citanjeKnjiga
             doc.Blocks.Add(p);
             FlowDocumentReader read = new FlowDocumentReader();
             read.Document = doc;
-            this.Content = read;
+            this.rightPannel.Children.Add(read);
 
         }
 
