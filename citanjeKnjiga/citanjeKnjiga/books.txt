@@ -1,2 +1,5 @@
-aaa,1,1,1
-bbb,0,1,1
+Prva knjiga,1,1,1
+Druga knjiga,0,1,0
+Treca knjiga,1,0,0
+Cetvrta knjiga,0,0,1
+Peta knjiga,0,0,0

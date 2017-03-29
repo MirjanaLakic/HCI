@@ -36,7 +36,7 @@
             </DataGrid>
             <DataGrid Name="DG3" ItemsSource="{Binding IsReadOnly}" AutoGenerateColumns="False" DockPanel.Dock="Top" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Favorites"  Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Favorites"  Binding="{Binding Name }" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <DataGrid Name="DG4" ItemsSource="{Binding IsReadOnly}" AutoGenerateColumns="False" DockPanel.Dock="Top">

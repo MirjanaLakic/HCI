@@ -23,11 +23,11 @@ namespace citanjeKnjiga
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Library Lib { get; set; }
+        Library Lib { get; set; }
         public MainWindow()
         {
-            InitializeComponent();
             Library Lib = new Library();
+            InitializeComponent();
             Lib.Load();
             ObservableCollection<Book> listRecentRead = new ObservableCollection<Book>();
             ObservableCollection<Book> listRecentImported = new ObservableCollection<Book>();
