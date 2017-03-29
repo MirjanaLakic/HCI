@@ -21,7 +21,7 @@
                 <DockPanel DockPanel.Dock="Left" Margin="0 10 0 10 ">
                     <Label>Search library books:</Label>
                 </DockPanel>
-                <TextBox DockPanel.Dock="Right" Margin="0 10 10 10" TextChanged="TextBox_TextChanged"></TextBox>
+                <TextBox DockPanel.Dock="Right" Margin="0 10 10 10" Padding="3" TextChanged="TextBox_TextChanged"></TextBox>
             </DockPanel>
             <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top">
                 <DataGrid.Columns>
