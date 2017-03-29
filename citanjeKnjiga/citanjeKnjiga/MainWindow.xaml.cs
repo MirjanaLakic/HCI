@@ -26,14 +26,14 @@ namespace citanjeKnjiga
         Library Lib { get; set; }
         public MainWindow()
         {
-            Library Lib = new Library();
+            this.Lib = new Library();
             InitializeComponent();
-            Lib.Load();
+            this.Lib.Load();
             ObservableCollection<Book> listRecentRead = new ObservableCollection<Book>();
             ObservableCollection<Book> listRecentImported = new ObservableCollection<Book>();
             ObservableCollection<Book> listFavorites = new ObservableCollection<Book>();
             ObservableCollection<Book> listBooks = new ObservableCollection<Book>();
-            foreach(Book b in Lib.books){
+            foreach(Book b in this.Lib.books){
                 listBooks.Add(b);
                 if(b.RecentlyAdded)
                     listRecentImported.Add(b);
