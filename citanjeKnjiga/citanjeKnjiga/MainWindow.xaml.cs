@@ -59,8 +59,29 @@ namespace citanjeKnjiga
             }
         }
 
+        private void btnImportFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                
+            }
+        }
+
+        private void btnImpAndOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                openBook(openFileDialog.FileName);
+            }
+        }
+
         public void openBook(string path)
         {
+            this.rightPannel.Children.Clear();
             StreamReader sr = new StreamReader(path);
             string book = sr.ReadToEnd();
             Paragraph p = new Paragraph();
@@ -69,7 +90,7 @@ namespace citanjeKnjiga
             doc.Blocks.Add(p);
             FlowDocumentReader read = new FlowDocumentReader();
             read.Document = doc;
-            this.Content = read;
+            this.rightPannel.Children.Add(read);
 
         }
 

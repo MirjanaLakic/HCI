@@ -8,8 +8,8 @@
                 <Button x:Name="LibraryButton" Content="Library" Height="30" BorderThickness="0" Margin="0 15 0 20" FontSize="20" Width="239" Background="#D7DBDD" />
                 <Separator/>
                 <Button x:Name="openBookButton" Click="btnOpenFile_Click" Content="Open Book" Height="30" BorderThickness="0" Margin="0 15 0 5" FontSize="20" Width="239" Background="#E5E7E9" />
-                <Button x:Name="ImportBookButton" Content="Import Book" Height="30" BorderThickness="0" Margin="0 15 0 5" FontSize="20" Width="239" Background="#E5E7E9" />
-                <Button x:Name="ImportAndOpenButton" Content="Import and Open Book" Height="30" BorderThickness="0" Margin="0 15 0 20" FontSize="20" Width="239" Background="#E5E7E9" />
+                <Button x:Name="ImportBookButton" Click="btnImportFile_Click" Content="Import Book" Height="30" BorderThickness="0" Margin="0 15 0 5" FontSize="20" Width="239" Background="#E5E7E9" />
+                <Button x:Name="ImportAndOpenButton" Click="btnImpAndOpen_Click" Content="Import and Open Book" Height="30" BorderThickness="0" Margin="0 15 0 20" FontSize="20" Width="239" Background="#E5E7E9" />
                 <Separator/>
                 <Button x:Name="AddToFavorite" Content="Add to Favourite" Height="30" BorderThickness="0" Margin="0 15 0 5" FontSize="20" Width="239" IsEnabled="False" Background="#E5E7E9" />
                 <Button x:Name="RemoveFromFavorite" Content="Remove from Favourite" Height="30" BorderThickness="0" Margin="0 15 0 20" FontSize="20" Width="239" IsEnabled="False" Background="#E5E7E9" />
