@@ -38,6 +38,26 @@ namespace citanjeKnjiga
             }
         }
 
+        private void btnImportFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                openBook(openFileDialog.FileName);
+            }
+        }
+
+        private void btnImpAndOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                openBook(openFileDialog.FileName);
+            }
+        }
+
         public void openBook(string path)
         {
             this.rightPannel.Children.Clear();
