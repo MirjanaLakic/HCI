@@ -1,5 +1,5 @@
 Prva knjiga,1,1,1
-Druga knjiga,0,1,0
-Treca knjiga,1,0,0
-Cetvrta knjiga,0,0,1
-Peta knjiga,0,0,0
+Druga knjiga,1,1,1
+Treca knjiga,1,1,1
+Cetvrta knjiga,1,1,1
+Peta knjiga,1,1,1

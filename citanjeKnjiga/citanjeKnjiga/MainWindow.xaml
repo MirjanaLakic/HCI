@@ -23,27 +23,35 @@
                 </DockPanel>
                 <TextBox DockPanel.Dock="Right" Margin="0 10 10 10" Padding="3" TextChanged="TextBox_TextChanged"></TextBox>
             </DockPanel>
-            <DataGrid Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Name="DG1" Grid.Row="0" Grid.Column="0" RowHeight="40" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True" SelectionUnit="Cell" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Recently Read"  Binding="{Binding Name }" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Name="DG2" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True">
+                <DataGrid Name="DG2" Grid.Row="1" Grid.Column="0" RowHeight="40" MaxHeight="140" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True" SelectionUnit="Cell" SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Recently Inserted"  Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn Header="Recently Inserted"  Binding="{Binding Name}" Width="*" >
                     </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Name="DG3" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True">
+                <DataGrid Grid.Row="2" Grid.Column="0" Name="DG3" RowHeight="40"  MaxHeight="140" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True" SelectionUnit="Cell" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Favorites"  Binding="{Binding Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <DataGrid Name="DG4" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True">
+                <DataGrid Grid.Row="3" Grid.Column="0" Name="DG4" RowHeight="40"  MaxHeight="140" ItemsSource="{Binding}" AutoGenerateColumns="False" DockPanel.Dock="Top" IsReadOnly="True" SelectionUnit="Cell" SelectionMode="Single" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Book Library"  Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Book Library"  Binding="{Binding Name}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
+            </Grid>
         </DockPanel>
     </DockPanel>
 
