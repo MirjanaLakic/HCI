@@ -53,8 +53,7 @@ namespace ReadingIsFun
         {
             if (CurrentBook != null)
             {
-                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber;
-                Library.BookList[CurrentBook].FontSize = docReader.Zoom;
+                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber / (docReader.PageCount * 1.0);
             }
             ((FlowDocument)docReader.Document).Blocks.Clear();
             StreamReader sr = new StreamReader(path);
@@ -65,7 +64,6 @@ namespace ReadingIsFun
             bookContent.DragOver += doc_DragOver;
             bookContent.Drop += doc_Drop;
             Book data = Library.getBook(path);
-            docReader.Zoom = data.FontSize;
             Paragraph p = new Paragraph();
             string book = sr.ReadLine();
             while (book != null)
@@ -80,7 +78,8 @@ namespace ReadingIsFun
             CurrentBook = path;
             EditRecentMenu();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
-            docReader.GoToPage(data.LastPage);
+            int page = (int)(data.LastPage * docReader.PageCount);
+            docReader.GoToPage(page);
             return;
         }
         public void fullscreen(object sender, EventArgs e)
@@ -94,8 +93,7 @@ namespace ReadingIsFun
         private void Window_Closing(object sender, EventArgs e)
         {
             if (CurrentBook!= null) { 
-                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber;
-                Library.BookList[CurrentBook].FontSize = docReader.Zoom;
+                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber/(docReader.PageCount*1.0);
             }
             Library.Save();
         }
@@ -138,5 +136,21 @@ namespace ReadingIsFun
             }
         }
 
+        private void fontPickerMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Random r = new Random();
+            switch (r.Next(1, 3))
+            {
+                case 1:
+                    ((FlowDocument)docReader.Document).FontFamily = new FontFamily("Courier New");
+                    break;
+                case 2:
+                    ((FlowDocument)docReader.Document).FontFamily = new FontFamily("Arial");
+                    break;
+                case 3:
+                    ((FlowDocument)docReader.Document).FontFamily = new FontFamily("Times");
+                    break;
+            }
+        }
     }
 }

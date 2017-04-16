@@ -10,7 +10,6 @@
                 <MenuItem Header="_Open Book"></MenuItem>
                 <MenuItem Header="_Recent Books" Name="recentBooksListMenu">
                 </MenuItem>
-                <MenuItem Header="Test" ></MenuItem>
             </MenuItem>
             <MenuItem Header="_Reading options">
                 <MenuItem Header="_Fullscreen" Click="fullscreen">
@@ -18,8 +17,12 @@
                 <Separator />
                 <MenuItem Header="_Theme">
                 </MenuItem>
-                <MenuItem Header="F_ont">
+                <MenuItem Header="F_ont" Name="fontPickerMenu" Click="fontPickerMenu_Click">
+                    
                 </MenuItem>
+                <MenuItem Header="_Margins" Name="marginsMenu">
+                </MenuItem>
+                <MenuItem Header="_Line spacing" Name="spacingMenu"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="Marker"></MenuItem>
