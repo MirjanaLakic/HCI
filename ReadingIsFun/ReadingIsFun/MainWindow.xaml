@@ -1,0 +1,35 @@
+﻿<Window x:Class="ReadingIsFun.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ReadingIsFun" MinHeight="350" MinWidth="525"
+        Closing="Window_Closing">
+    <DockPanel>
+        
+        <Menu Name="menuBar" DockPanel.Dock="Top">
+            <MenuItem Header="_Open">
+                <MenuItem Header="_Open Book"></MenuItem>
+                <MenuItem Header="_Recent Books" Name="recentBooksListMenu">
+                </MenuItem>
+                <MenuItem Header="Test" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Reading options">
+                <MenuItem Header="_Fullscreen" Click="fullscreen">
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Theme">
+                </MenuItem>
+                <MenuItem Header="F_ont">
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Marker"></MenuItem>
+                <MenuItem Header="Comments"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <DockPanel Name="BookReaderDock" DockPanel.Dock="Bottom">
+            <FlowDocumentPageViewer x:Name="docReader" Background="Gray">
+                <FlowDocument x:Name="doc" AllowDrop="True" DragOver="doc_DragOver" Drop="doc_Drop" Background="LightGray"></FlowDocument>
+            </FlowDocumentPageViewer>
+        </DockPanel>
+    </DockPanel>
+</Window>
