@@ -7,7 +7,7 @@
         
         <Menu Name="menuBar" DockPanel.Dock="Top">
             <MenuItem Header="_Open">
-                <MenuItem Header="_Open Book"></MenuItem>
+                <MenuItem Header="_Open Book" Click="OpenMenuItem_Click"></MenuItem>
                 <MenuItem Header="_Recent Books" Name="recentBooksListMenu">
                 </MenuItem>
             </MenuItem>
@@ -15,14 +15,36 @@
                 <MenuItem Header="_Fullscreen" Click="fullscreen">
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="_Theme">
+                <MenuItem Header="_Theme" Name="themeMenu">
+                    <MenuItem Header="Original" Click="ThemeMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Clasic" Click="ThemeMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Black" Click="ThemeMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Blue Light Filter" Click="ThemeMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="F_ont" Name="fontPickerMenu" Click="fontPickerMenu_Click">
-                    
+                <MenuItem Header="F_ont" Name="fontPickerMenu">
+                    <MenuItem Header="Alegreya Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Alegreya Bold" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Libre Baskerville Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Libre Baskerville Bold" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Lora Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Lora Bold" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Montserrat Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Montserrat Bold" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Nunito Sans Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Nunito Sans Bold" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Source Sans Pro Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Source Sans Pro Bold" Click="FontMenuItem_Checked" ></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Margins" Name="marginsMenu">
+                    <MenuItem Header="Small" Click="MarginsMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Medium" Click="MarginsMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Big" Click="MarginsMenuItem_Click"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="_Line spacing" Name="spacingMenu"></MenuItem>
+                <MenuItem Header="_Line spacing" Name="spacingMenu">
+                    <MenuItem Header="Small" Click="SpacingMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Medium" Click="SpacingMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Big" Click="SpacingMenuItem_Click"></MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="Marker"></MenuItem>
@@ -30,7 +52,7 @@
             </MenuItem>
         </Menu>
         <DockPanel Name="BookReaderDock" DockPanel.Dock="Bottom">
-            <FlowDocumentPageViewer x:Name="docReader" Background="Gray">
+            <FlowDocumentPageViewer x:Name="docReader" Background="Gray" MinZoom="120" MaxZoom="240">
                 <FlowDocument x:Name="doc" AllowDrop="True" DragOver="doc_DragOver" Drop="doc_Drop" Background="LightGray"></FlowDocument>
             </FlowDocumentPageViewer>
         </DockPanel>

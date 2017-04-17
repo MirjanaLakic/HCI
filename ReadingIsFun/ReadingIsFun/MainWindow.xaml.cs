@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.IO;
+using Microsoft.Win32;
 
 namespace ReadingIsFun
 {
@@ -21,9 +16,14 @@ namespace ReadingIsFun
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private const double MarginSmall = 0.03125,MarginMedium = 0.125,MarginBig = 0.25;
+        private const int LineSpaceSmall = 12, LineSpaceMedium = 24, LineSpaceBig = 36;
         private Books Library { get; set; }
         private string CurrentBook { get; set; }
+        private double MarginPercent { get; set; }
+        private int LineSpacing { get; set; }
+        private string BookFont { get; set; }
+        private Theme AppTheme { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -32,13 +32,26 @@ namespace ReadingIsFun
             CurrentBook = null;
             this.DataContext = this;
             EditRecentMenu();
+            LoadData();
+            this.SizeChanged += ExpandMargins;
         }
+        //Otvaranje knjige
+            //klasicno
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                openBook(openFileDialog.FileName);
+            }
+        }
+            ///Drop event
         private void doc_DragOver(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.All;
             e.Handled = true;
         }
-
         private void doc_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -49,6 +62,12 @@ namespace ReadingIsFun
                     openBook(files[0]);
             }
         }
+            ///Recent knjige
+        private void OpenRecent(object sender, EventArgs e)
+        {
+            openBook((string)(((MenuItem)sender).CommandParameter));
+        }
+            ///funkcija otvaranja
         public void openBook(string path)
         {
             if (CurrentBook != null)
@@ -59,10 +78,16 @@ namespace ReadingIsFun
             StreamReader sr = new StreamReader(path);
             FlowDocument bookContent = new FlowDocument();
             bookContent.ColumnWidth = double.MaxValue;
-            bookContent.Background = new SolidColorBrush(Color.FromArgb(255,219,219,219));
+            bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
             bookContent.AllowDrop = true;
             bookContent.DragOver += doc_DragOver;
             bookContent.Drop += doc_Drop;
+            bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#"+BookFont);
+            bookContent.LineHeight = LineSpacing;
+            bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+            bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+            double margin = MarginPercent * Width;
+            bookContent.PagePadding = new Thickness(margin, 10,margin, 10);
             Book data = Library.getBook(path);
             Paragraph p = new Paragraph();
             string book = sr.ReadLine();
@@ -80,37 +105,45 @@ namespace ReadingIsFun
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             int page = (int)(data.LastPage * docReader.PageCount);
             docReader.GoToPage(page);
+
             return;
         }
+        //Upravljanje prozorom
+            //fullscreen opcija
         public void fullscreen(object sender, EventArgs e)
         {
-            if(this.WindowState != WindowState.Maximized) { 
-                this.WindowState = WindowState.Maximized;
+            if (this.WindowState != WindowState.Maximized)
+            {
                 this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
                 menuBar.Visibility = Visibility.Collapsed;
             }
         }
+            //zatvaranje prozora
         private void Window_Closing(object sender, EventArgs e)
         {
-            if (CurrentBook!= null) { 
-                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber/(docReader.PageCount*1.0);
+            if (CurrentBook != null)
+            {
+                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber / (docReader.PageCount * 1.0);
             }
             Library.Save();
+            SaveData();
         }
+            //key eventovi
         public void key_events(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Escape)
+            if (e.Key == Key.Escape)
             {
-                if(this.WindowState == WindowState.Maximized)
+                if (this.WindowState == WindowState.Maximized)
                 {
                     this.WindowState = WindowState.Normal;
                     WindowStyle = WindowStyle.SingleBorderWindow;
                     menuBar.Visibility = Visibility.Visible;
                 }
             }
-            if(e.Key == Key.Subtract)
+            if (e.Key == Key.Subtract)
             {
-                if(docReader.CanDecreaseZoom)
+                if (docReader.CanDecreaseZoom)
                     docReader.DecreaseZoom();
             }
             if (e.Key == Key.Add)
@@ -118,15 +151,13 @@ namespace ReadingIsFun
                 if (docReader.CanIncreaseZoom)
                     docReader.IncreaseZoom();
             }
+            
         }
-        private void OpenRecent(object sender, EventArgs e)
-        {
-            openBook((string)(((MenuItem)sender).CommandParameter));
-        }
+            //recent meni kreiranje
         private void EditRecentMenu()
         {
             recentBooksListMenu.Items.Clear();
-            foreach(var item in Library.Recent)
+            foreach (var item in Library.Recent)
             {
                 MenuItem mi = new MenuItem();
                 mi.Header = item;
@@ -135,22 +166,213 @@ namespace ReadingIsFun
                 recentBooksListMenu.Items.Add(mi);
             }
         }
-
-        private void fontPickerMenu_Click(object sender, RoutedEventArgs e)
+            //snimanje podataka
+        private void SaveData()
         {
-            Random r = new Random();
-            switch (r.Next(1, 3))
+            if (!Directory.Exists(".\\ProgramData"))
+                Directory.CreateDirectory(".\\ProgramData");
+            BinaryWriter bw = new BinaryWriter(new FileStream(".\\ProgramData\\settings.bin", FileMode.Create));
+            bw.Write(MarginPercent);
+            bw.Write(LineSpacing);
+            bw.Write(BookFont);
+            AppTheme.Save(bw);
+            bw.Close();
+        }
+            //ucitavanje podataka
+        private void LoadData()
+        {
+            if (!Directory.Exists(".\\ProgramData"))
+                Directory.CreateDirectory(".\\ProgramData");
+            BinaryReader br = new BinaryReader(new FileStream(".\\ProgramData\\settings.bin", FileMode.OpenOrCreate));
+            if (br.PeekChar() != -1)
             {
-                case 1:
-                    ((FlowDocument)docReader.Document).FontFamily = new FontFamily("Courier New");
+                MarginPercent = br.ReadDouble();
+                LineSpacing = br.ReadInt32();
+                BookFont = br.ReadString();
+                AppTheme = new Theme();
+                AppTheme.Load(br);
+            }
+            else
+            {
+                MarginPercent = MarginSmall;
+                LineSpacing = LineSpaceSmall;
+                BookFont = "Nunito Sans Regular";
+                AppTheme = new Theme();
+            }
+            br.Close();
+
+            //pronadji i stikliraj
+            ((FlowDocument)docReader.Document).Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+            ((FlowDocument)docReader.Document).Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+            docReader.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookToolBarColor);
+            docReader.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+            foreach (MenuItem item in fontPickerMenu.Items)
+            {
+                if (item.Header.Equals(BookFont))
+                {
+                    item.IsChecked = true;
                     break;
-                case 2:
-                    ((FlowDocument)docReader.Document).FontFamily = new FontFamily("Arial");
+                }
+            }
+            string search = "";
+            switch (MarginPercent)
+            {
+                case MarginSmall:
+                    search = "Small";
                     break;
-                case 3:
-                    ((FlowDocument)docReader.Document).FontFamily = new FontFamily("Times");
+                case MarginMedium:
+                    search = "Medium";
+                    break;
+                case MarginBig:
+                    search = "Big";
                     break;
             }
+            foreach (MenuItem item in marginsMenu.Items)
+            {
+                if (item.Header.Equals(search))
+                {
+                    item.IsChecked = true;
+                    break;
+                }
+            }
+            switch (LineSpacing)
+            {
+                case LineSpaceSmall:
+                    search = "Small";
+                    break;
+                case LineSpaceMedium:
+                    search = "Medium";
+                    break;
+                case LineSpaceBig:
+                    search = "Big";
+                    break;
+            }
+            foreach (MenuItem item in spacingMenu.Items)
+            {
+                if (item.Header.Equals(search))
+                {
+                    item.IsChecked = true;
+                    break;
+                }
+            }
+            foreach (MenuItem item in themeMenu.Items)
+            {
+                if (item.Header.Equals(AppTheme.Name))
+                {
+                    item.IsChecked = true;
+                    break;
+                }
+            }
+
         }
+
+
+        private void ExpandMargins(object sender, EventArgs e)
+        {
+            SetMargin(MarginPercent);
+        }
+        private void FontMenuItem_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var menu in fontPickerMenu.Items)
+            {
+                if (((MenuItem)menu).IsChecked == true)
+                {
+                    ((MenuItem)menu).IsChecked = false;
+                    break;
+                }
+            }
+            ((MenuItem)sender).IsChecked = true;
+            SetFont(((string)((MenuItem)sender).Header));
+
+        }
+        private void MarginsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var menu in marginsMenu.Items)
+            {
+                if (((MenuItem)menu).IsChecked == true)
+                {
+                    ((MenuItem)menu).IsChecked = false;
+                    break;
+                }
+            }
+            ((MenuItem)sender).IsChecked = true;
+            switch (((string)((MenuItem)sender).Header))
+            {
+                case "Small":
+                    SetMargin(MarginSmall);
+                    break;
+                case "Medium":
+                    SetMargin(MarginMedium);
+                    break;
+                case "Big":
+                    SetMargin(MarginBig);
+                    break;
+            }
+            
+        }
+        private void SpacingMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var menu in spacingMenu.Items)
+            {
+                if (((MenuItem)menu).IsChecked == true)
+                {
+                    ((MenuItem)menu).IsChecked = false;
+                    break;
+                }
+            }
+            ((MenuItem)sender).IsChecked = true;
+            switch (((string)((MenuItem)sender).Header))
+            {
+                case "Small":
+                    SetSpacing(LineSpaceSmall);
+                    break;
+                case "Medium":
+                    SetSpacing(LineSpaceMedium);
+                    break;
+                case "Big":
+                    SetSpacing(LineSpaceBig);
+                    break;
+            }
+
+        }
+        private void ThemeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var menu in themeMenu.Items)
+            {
+                if (((MenuItem)menu).IsChecked == true)
+                {
+                    ((MenuItem)menu).IsChecked = false;
+                    break;
+                }
+            }
+            ((MenuItem)sender).IsChecked = true;
+            SetTheme(((string)((MenuItem)sender).Header));
+        }
+
+        private void SetFont(string font)
+        {
+            BookFont = font;
+            ((FlowDocument)docReader.Document).FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + font);
+        }
+        private void SetMargin(double percent)
+        {
+            MarginPercent = percent;
+            double margin = percent * Width;
+            ((FlowDocument)docReader.Document).PagePadding = new Thickness(margin, 10, margin, 10);
+        }
+        private void SetSpacing(int spacing)
+        {
+            LineSpacing = spacing;
+            ((FlowDocument)docReader.Document).LineHeight = spacing;
+        }
+        private void SetTheme(string theme)
+        {
+            AppTheme = new Theme(theme);
+            ((FlowDocument)docReader.Document).Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+            ((FlowDocument)docReader.Document).Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+            docReader.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookToolBarColor);
+            docReader.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+        }
+        
     }
 }
