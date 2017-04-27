@@ -7,12 +7,12 @@
         
         <Menu Name="menuBar" DockPanel.Dock="Top">
             <MenuItem Header="_Open">
-                <MenuItem Header="_Open Book" Click="OpenMenuItem_Click"></MenuItem>
+                <MenuItem Header="_Open Book" Click="OpenMenuItem_Click" InputGestureText="Ctrl + O"></MenuItem>
                 <MenuItem Header="_Recent Books" Name="recentBooksListMenu">
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Reading options">
-                <MenuItem Header="_Fullscreen" Click="fullscreen">
+                <MenuItem Header="_Fullscreen" Click="fullscreen" InputGestureText="Ctrl + F">
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="_Theme" Name="themeMenu">
@@ -28,10 +28,10 @@
                     <MenuItem Header="Libre Baskerville Bold" Click="FontMenuItem_Checked"></MenuItem>
                     <MenuItem Header="Lora Regular" Click="FontMenuItem_Checked"></MenuItem>
                     <MenuItem Header="Lora Bold" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Montserrat Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Montserrat Bold" Click="FontMenuItem_Checked"></MenuItem>
                     <MenuItem Header="Nunito Sans Regular" Click="FontMenuItem_Checked"></MenuItem>
                     <MenuItem Header="Nunito Sans Bold" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Raleway Regular" Click="FontMenuItem_Checked"></MenuItem>
+                    <MenuItem Header="Raleway Bold" Click="FontMenuItem_Checked"></MenuItem>
                     <MenuItem Header="Source Sans Pro Regular" Click="FontMenuItem_Checked"></MenuItem>
                     <MenuItem Header="Source Sans Pro Bold" Click="FontMenuItem_Checked" ></MenuItem>
                 </MenuItem>
@@ -46,9 +46,7 @@
                     <MenuItem Header="Big" Click="SpacingMenuItem_Click"></MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Tools">
-                <MenuItem Header="Marker"></MenuItem>
-                <MenuItem Header="Comments"></MenuItem>
+            <MenuItem Header="_Comments" InputGestureText="Ctrl + C">
             </MenuItem>
         </Menu>
         <DockPanel Name="BookReaderDock" DockPanel.Dock="Bottom">

@@ -34,6 +34,7 @@ namespace ReadingIsFun
             EditRecentMenu();
             LoadData();
             this.SizeChanged += ExpandMargins;
+            this.docReader.LayoutUpdated += ExpandMargins;
         }
         //Otvaranje knjige
             //klasicno
@@ -93,7 +94,8 @@ namespace ReadingIsFun
             string book = sr.ReadLine();
             while (book != null)
             {
-                book = book + '\n';
+                if(book=="")
+                    book = "\n";
                 p.Inlines.Add(new Run(book));
                 book = sr.ReadLine();
             }
@@ -117,6 +119,18 @@ namespace ReadingIsFun
                 this.WindowStyle = WindowStyle.None;
                 this.WindowState = WindowState.Maximized;
                 menuBar.Visibility = Visibility.Collapsed;
+            }
+            else if(this.WindowState == WindowState.Maximized && this.WindowStyle != WindowStyle.None)
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+                menuBar.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+                menuBar.Visibility = Visibility.Visible;
             }
         }
             //zatvaranje prozora
@@ -143,16 +157,37 @@ namespace ReadingIsFun
             }
             if (e.Key == Key.Subtract)
             {
-                if (docReader.CanDecreaseZoom)
+                if (docReader.CanDecreaseZoom) { 
                     docReader.DecreaseZoom();
+                }
             }
             if (e.Key == Key.Add)
             {
-                if (docReader.CanIncreaseZoom)
+                if (docReader.CanIncreaseZoom) { 
                     docReader.IncreaseZoom();
+                }
             }
-            
-        }
+            if((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) { 
+                if(e.Key == Key.F)
+                {
+                    fullscreen(sender, e);
+                }
+                if (e.Key == Key.O)
+                {
+                    OpenMenuItem_Click(sender, e);
+                }
+            }
+            if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt)
+            {
+                if (this.WindowState == WindowState.Maximized && this.WindowStyle == WindowStyle.None) {
+                    if (menuBar.Visibility == Visibility.Visible)
+                        menuBar.Visibility = Visibility.Collapsed;
+                    else
+                        menuBar.Visibility = Visibility.Visible;
+                }
+            }
+
+            }
             //recent meni kreiranje
         private void EditRecentMenu()
         {
@@ -333,7 +368,6 @@ namespace ReadingIsFun
                     SetSpacing(LineSpaceBig);
                     break;
             }
-
         }
         private void ThemeMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -353,6 +387,7 @@ namespace ReadingIsFun
         {
             BookFont = font;
             ((FlowDocument)docReader.Document).FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + font);
+            
         }
         private void SetMargin(double percent)
         {

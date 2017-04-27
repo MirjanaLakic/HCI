@@ -109,15 +109,15 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Raleway-Regular.ttf" />
+    <Resource Include="Resources\Raleway-Bold.ttf" />
     <Resource Include="Resources\SourceSansPro-Bold.ttf" />
     <Resource Include="Resources\NunitoSans-Bold.ttf" />
-    <Resource Include="Resources\Montserrat-Bold.ttf" />
     <Resource Include="Resources\Lora-Bold.ttf" />
     <Resource Include="Resources\LibreBaskerville-Bold.ttf" />
     <Resource Include="Resources\Alegreya-Bold.ttf" />
     <Resource Include="Resources\SourceSansPro-Regular.ttf" />
     <Resource Include="Resources\NunitoSans-Regular.ttf" />
-    <Resource Include="Resources\Montserrat-Regular.ttf" />
     <Resource Include="Resources\Lora-Regular.ttf" />
     <Resource Include="Resources\LibreBaskerville-Regular.ttf" />
     <Resource Include="Resources\Alegreya-Regular.ttf" />
