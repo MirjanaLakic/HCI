@@ -6,6 +6,11 @@
     <DockPanel>
         
         <Menu Name="menuBar" DockPanel.Dock="Top">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"></DockPanel>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
             <MenuItem Header="_Open">
                 <MenuItem Header="_Open Book" Click="OpenMenuItem_Click"></MenuItem>
                 <MenuItem Header="_Recent Books" Name="recentBooksListMenu">
@@ -49,6 +54,16 @@
             <MenuItem Header="_Tools">
                 <MenuItem Header="Marker"></MenuItem>
                 <MenuItem Header="Comments"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help" HorizontalAlignment="Right">
+                <MenuItem.ToolTip>
+                    <TextBlock TextWrapping="Wrap" >
+                        Open > Recently Read contains a list of 10 most recently opened book <LineBreak/>
+                        In Reading Options you can change the theme of window, font of books, margins and space between lines <LineBreak/>
+                        You can use marker for saving parts of the book you find interesting. First you select lines that you want to save <LineBreak/>
+                        and then press Ctrl+m <LineBreak/>
+                    </TextBlock>
+                </MenuItem.ToolTip>
             </MenuItem>
         </Menu>
         <DockPanel Name="BookReaderDock" DockPanel.Dock="Bottom">
