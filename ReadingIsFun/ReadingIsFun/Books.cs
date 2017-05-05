@@ -7,7 +7,7 @@ namespace ReadingIsFun
 {
     class Books
     {
-        private static int numOfRecent = 5;
+        private static int numOfRecent = 10;
         public Dictionary<String, Book> BookList { get; }
         public List<String> Recent { get; }
         public Books()

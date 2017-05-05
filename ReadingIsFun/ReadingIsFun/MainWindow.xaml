@@ -4,20 +4,14 @@
         Title="ReadingIsFun" MinHeight="350" MinWidth="525"
         Closing="Window_Closing">
     <DockPanel>
-        
         <Menu Name="menuBar" DockPanel.Dock="Top">
-            <Menu.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <DockPanel HorizontalAlignment="Stretch"></DockPanel>
-                </ItemsPanelTemplate>
-            </Menu.ItemsPanel>
             <MenuItem Header="_Open">
                 <MenuItem Header="_Open Book" Click="OpenMenuItem_Click" InputGestureText="Ctrl + O"></MenuItem>
-                <MenuItem Header="_Recent Books" Name="recentBooksListMenu">
-                </MenuItem>
+                <MenuItem Header="_Recent Books" Name="recentBooksListMenu"></MenuItem>
+                <MenuItem Header="_All Books" Name="booksListMenu" ></MenuItem>
             </MenuItem>
             <MenuItem Header="_Reading options">
-                <MenuItem Header="_Fullscreen" Click="fullscreen" InputGestureText="Ctrl + F">
+                <MenuItem Header="_Fullscreen" Click="fullscreen" InputGestureText="F4">
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="_Theme" Name="themeMenu">
@@ -50,18 +44,6 @@
                     <MenuItem Header="Medium" Click="SpacingMenuItem_Click"></MenuItem>
                     <MenuItem Header="Big" Click="SpacingMenuItem_Click"></MenuItem>
                 </MenuItem>
-            </MenuItem>
-            <MenuItem Header="_Comments" InputGestureText="Ctrl + C">
-            </MenuItem>
-            <MenuItem Header="_Help" HorizontalAlignment="Right">
-                <MenuItem.ToolTip>
-                    <TextBlock TextWrapping="Wrap" >
-                        Open > Recently Read contains a list of 10 most recently opened book <LineBreak/>
-                        In Reading Options you can change the theme of window, font of books, margins and space between lines <LineBreak/>
-                        You can use marker for saving parts of the book you find interesting. First you select lines that you want to save <LineBreak/>
-                        and then press Ctrl+m <LineBreak/>
-                    </TextBlock>
-                </MenuItem.ToolTip>
             </MenuItem>
         </Menu>
         <DockPanel Name="BookReaderDock" DockPanel.Dock="Bottom">

@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Win32;
 
@@ -32,6 +33,7 @@ namespace ReadingIsFun
             CurrentBook = null;
             this.DataContext = this;
             EditRecentMenu();
+            EditBooksMenu();
             LoadData();
             this.SizeChanged += ExpandMargins;
             this.docReader.LayoutUpdated += ExpandMargins;
@@ -61,12 +63,59 @@ namespace ReadingIsFun
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (files[0].Split('.').Last() == "txt")
                     openBook(files[0]);
+                else
+                {
+                    FlowDocument bookContent = new FlowDocument();
+                    bookContent.ColumnWidth = double.MaxValue;
+                    bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
+                    bookContent.AllowDrop = true;
+                    bookContent.DragOver += doc_DragOver;
+                    bookContent.Drop += doc_Drop;
+                    bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + BookFont);
+                    bookContent.LineHeight = LineSpacing;
+                    bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+                    bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+                    double margin = MarginPercent * Width;
+                    bookContent.PagePadding = new Thickness(margin, 10, margin, 10);
+                    Paragraph p = new Paragraph();
+                    p.Inlines.Add(new Run("File that has been droped is not supported by this program.\nPlease use books that have .txt format."));
+                    bookContent.Blocks.Add(p);
+                    docReader.Document = bookContent;
+                    CurrentBook = null;
+                }
             }
         }
             ///Recent knjige
         private void OpenRecent(object sender, EventArgs e)
         {
-            openBook((string)(((MenuItem)sender).CommandParameter));
+            string path = (string)(((MenuItem)sender).CommandParameter);
+            if (!File.Exists(path))
+            {
+                FlowDocument bookContent = new FlowDocument();
+                bookContent.ColumnWidth = double.MaxValue;
+                bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
+                bookContent.AllowDrop = true;
+                bookContent.DragOver += doc_DragOver;
+                bookContent.Drop += doc_Drop;
+                bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + BookFont);
+                bookContent.LineHeight = LineSpacing;
+                bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+                bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+                double margin = MarginPercent * Width;
+                bookContent.PagePadding = new Thickness(margin, 10, margin, 10);
+                Paragraph p = new Paragraph();
+                p.Inlines.Add(new Run("Path to the book has been changed, or book got deleted.\nBook will be removed from recent books and all books list.\nPlease open the book, or drag and drop it, from its new location."));
+                bookContent.Blocks.Add(p);
+                docReader.Document = bookContent;
+
+                CurrentBook = null;
+                Library.Recent.Remove(path);
+                Library.BookList.Remove(path);
+                EditRecentMenu();
+                EditBooksMenu();
+                return;
+            }
+            openBook(path);
         }
             ///funkcija otvaranja
         public void openBook(string path)
@@ -104,6 +153,7 @@ namespace ReadingIsFun
             sr.Close();
             CurrentBook = path;
             EditRecentMenu();
+            EditBooksMenu();
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             int page = (int)(data.LastPage * docReader.PageCount);
             docReader.GoToPage(page);
@@ -132,6 +182,7 @@ namespace ReadingIsFun
                 this.WindowState = WindowState.Normal;
                 menuBar.Visibility = Visibility.Visible;
             }
+            docReader.Focus();
         }
             //zatvaranje prozora
         private void Window_Closing(object sender, EventArgs e)
@@ -146,6 +197,10 @@ namespace ReadingIsFun
             //key eventovi
         public void key_events(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.F4)
+            {
+                fullscreen(sender, e);
+            }
             if (e.Key == Key.Escape)
             {
                 if (this.WindowState == WindowState.Maximized)
@@ -168,10 +223,6 @@ namespace ReadingIsFun
                 }
             }
             if((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) { 
-                if(e.Key == Key.F)
-                {
-                    fullscreen(sender, e);
-                }
                 if (e.Key == Key.O)
                 {
                     OpenMenuItem_Click(sender, e);
@@ -201,7 +252,33 @@ namespace ReadingIsFun
                 recentBooksListMenu.Items.Add(mi);
             }
         }
-            //snimanje podataka
+        //all books menu
+        private void EditBooksMenu()
+        {
+            booksListMenu.Items.Clear();
+            List<string> temp = new List<string>();
+            foreach (var item in Library.BookList)
+            {
+                temp.Add((string)(item.Key));
+            }
+            Sorter srt = new Sorter(temp);
+            SortedDictionary<string, List<Tuple<string, string>>> result = srt.Sort();
+            foreach(var pair in result)
+            {
+                MenuItem mi = new MenuItem();
+                mi.Header = pair.Key;
+                foreach(var listItem in pair.Value)
+                {
+                    MenuItem smi = new MenuItem();
+                    smi.Header = listItem.Item1;
+                    smi.CommandParameter = listItem.Item2;
+                    smi.Click += OpenRecent;
+                    mi.Items.Add(smi);
+                }
+                booksListMenu.Items.Add(mi);
+            }
+        }
+        //snimanje podataka
         private void SaveData()
         {
             if (!Directory.Exists(".\\ProgramData"))
