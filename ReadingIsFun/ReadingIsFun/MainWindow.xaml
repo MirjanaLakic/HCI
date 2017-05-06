@@ -6,48 +6,55 @@
     <DockPanel>
         <Menu Name="menuBar" DockPanel.Dock="Top">
             <MenuItem Header="_Open">
-                <MenuItem Header="_Open Book" Click="OpenMenuItem_Click" InputGestureText="Ctrl + O"></MenuItem>
-                <MenuItem Header="_Recent Books" Name="recentBooksListMenu"></MenuItem>
-                <MenuItem Header="_All Books" Name="booksListMenu" ></MenuItem>
+                <MenuItem Header="_Open Book" Click="OpenMenuItem_Click" InputGestureText="Ctrl + O" ToolTip="Open menu to select a book to open."></MenuItem>
+                <MenuItem Header="_Recent Books" Name="recentBooksListMenu" ToolTip="List of recent books that have been open."></MenuItem>
+                <MenuItem Header="_All Books" Name="booksListMenu" ToolTip="All books ever open with this program."></MenuItem>
             </MenuItem>
             <MenuItem Header="_Reading options">
-                <MenuItem Header="_Fullscreen" Click="fullscreen" InputGestureText="F4">
+                <MenuItem Header="_Fullscreen" Click="fullscreen" InputGestureText="F4" ToolTip="Enters/Exits fullscreen">
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="_Theme" Name="themeMenu">
-                    <MenuItem Header="Original" Click="ThemeMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Clasic" Click="ThemeMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Black" Click="ThemeMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Blue Light Filter" Click="ThemeMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Original" Click="ThemeMenuItem_Click" ToolTip="Grey background, black letters"></MenuItem>
+                    <MenuItem Header="Clasic" Click="ThemeMenuItem_Click" ToolTip="White-yellow background, black letters"></MenuItem>
+                    <MenuItem Header="Black" Click="ThemeMenuItem_Click" ToolTip="Black background, white letters"></MenuItem>
+                    <MenuItem Header="Blue Light Filter" Click="ThemeMenuItem_Click" ToolTip="Dark grey background, brown letters"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="F_ont" Name="fontPickerMenu">
-                    <MenuItem Header="Alegreya Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Alegreya Bold" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Libre Baskerville Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Libre Baskerville Bold" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Lora Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Lora Bold" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Nunito Sans Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Nunito Sans Bold" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Raleway Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Raleway Bold" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Source Sans Pro Regular" Click="FontMenuItem_Checked"></MenuItem>
-                    <MenuItem Header="Source Sans Pro Bold" Click="FontMenuItem_Checked" ></MenuItem>
+                    <MenuItem Header="Alegreya Regular" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Alegreya Bold" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Libre Baskerville Regular" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Libre Baskerville Bold" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Lora Regular" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Lora Bold" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Nunito Sans Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                    <MenuItem Header="Nunito Sans Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                    <MenuItem Header="Raleway Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                    <MenuItem Header="Raleway Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                    <MenuItem Header="Source Sans Pro Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                    <MenuItem Header="Source Sans Pro Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Font _size" Name="fontSizesMenu">
+                    <MenuItem Header="Tiny" Click="FontSizeMenuItem_Checked" ToolTip="Font size: 16"></MenuItem>
+                    <MenuItem Header="Small" Click="FontSizeMenuItem_Checked" ToolTip="Font size: 20"></MenuItem>
+                    <MenuItem Header="Medium" Click="FontSizeMenuItem_Checked" ToolTip="Font size: 24"></MenuItem>
+                    <MenuItem Header="Large" Click="FontSizeMenuItem_Checked" ToolTip="Font size: 28"></MenuItem>
+                    <MenuItem Header="Huge" Click="FontSizeMenuItem_Checked" ToolTip="Font size: 32"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Margins" Name="marginsMenu">
-                    <MenuItem Header="Small" Click="MarginsMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Medium" Click="MarginsMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Big" Click="MarginsMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Small" Click="MarginsMenuItem_Click" ToolTip="3.25% of screen on each side"></MenuItem>
+                    <MenuItem Header="Medium" Click="MarginsMenuItem_Click" ToolTip="12.5% of screen on each side"></MenuItem>
+                    <MenuItem Header="Large" Click="MarginsMenuItem_Click" ToolTip="25% of screen on each side"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Line spacing" Name="spacingMenu">
-                    <MenuItem Header="Small" Click="SpacingMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Medium" Click="SpacingMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Big" Click="SpacingMenuItem_Click"></MenuItem>
+                    <MenuItem Header="Small" Click="SpacingMenuItem_Click" ToolTip="Small space between lines"></MenuItem>
+                    <MenuItem Header="Medium" Click="SpacingMenuItem_Click" ToolTip="Medium space between lines"></MenuItem>
+                    <MenuItem Header="Large" Click="SpacingMenuItem_Click" ToolTip="Large space between lines"></MenuItem>
                 </MenuItem>
             </MenuItem>
         </Menu>
         <DockPanel Name="BookReaderDock" DockPanel.Dock="Bottom">
-            <FlowDocumentPageViewer x:Name="docReader" Background="Gray" MinZoom="120" MaxZoom="240">
+            <FlowDocumentPageViewer x:Name="docReader" Background="Gray" MinZoom="100" MaxZoom="200" Zoom="100" ZoomIncrement="10">
                 <FlowDocument x:Name="doc" AllowDrop="True" DragOver="doc_DragOver" Drop="doc_Drop" Background="LightGray"></FlowDocument>
             </FlowDocumentPageViewer>
         </DockPanel>

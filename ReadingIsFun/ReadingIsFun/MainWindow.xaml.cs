@@ -19,12 +19,14 @@ namespace ReadingIsFun
     {
         private const double MarginSmall = 0.03125,MarginMedium = 0.125,MarginBig = 0.25;
         private const int LineSpaceSmall = 12, LineSpaceMedium = 24, LineSpaceBig = 36;
+        private const int TinyFontSize = 16, SmallFontSize = 20, MediumFontSize = 24, LargeFontSize=28, HugeFontSize = 32;
         private Books Library { get; set; }
         private string CurrentBook { get; set; }
         private double MarginPercent { get; set; }
         private int LineSpacing { get; set; }
         private string BookFont { get; set; }
         private Theme AppTheme { get; set; }
+        private int BookFontSize { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -35,8 +37,8 @@ namespace ReadingIsFun
             EditRecentMenu();
             EditBooksMenu();
             LoadData();
+            
             this.SizeChanged += ExpandMargins;
-            this.docReader.LayoutUpdated += ExpandMargins;
         }
         //Otvaranje knjige
             //klasicno
@@ -59,7 +61,6 @@ namespace ReadingIsFun
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                // Note that you can have more than one file.
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 if (files[0].Split('.').Last() == "txt")
                     openBook(files[0]);
@@ -73,6 +74,7 @@ namespace ReadingIsFun
                     bookContent.Drop += doc_Drop;
                     bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + BookFont);
                     bookContent.LineHeight = LineSpacing;
+                    bookContent.FontSize = BookFontSize;
                     bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
                     bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
                     double margin = MarginPercent * Width;
@@ -99,6 +101,7 @@ namespace ReadingIsFun
                 bookContent.Drop += doc_Drop;
                 bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + BookFont);
                 bookContent.LineHeight = LineSpacing;
+                bookContent.FontSize = BookFontSize;
                 bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
                 bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
                 double margin = MarginPercent * Width;
@@ -134,6 +137,7 @@ namespace ReadingIsFun
             bookContent.Drop += doc_Drop;
             bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#"+BookFont);
             bookContent.LineHeight = LineSpacing;
+            bookContent.FontSize = BookFontSize;
             bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
             bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
             double margin = MarginPercent * Width;
@@ -249,6 +253,7 @@ namespace ReadingIsFun
                 mi.Header = item;
                 mi.CommandParameter = item;
                 mi.Click += OpenRecent;
+                mi.ToolTip = "Opens book at " + item;
                 recentBooksListMenu.Items.Add(mi);
             }
         }
@@ -273,6 +278,7 @@ namespace ReadingIsFun
                     smi.Header = listItem.Item1;
                     smi.CommandParameter = listItem.Item2;
                     smi.Click += OpenRecent;
+                    smi.ToolTip = "Opens book at: " + listItem.Item2;
                     mi.Items.Add(smi);
                 }
                 booksListMenu.Items.Add(mi);
@@ -287,6 +293,7 @@ namespace ReadingIsFun
             bw.Write(MarginPercent);
             bw.Write(LineSpacing);
             bw.Write(BookFont);
+            bw.Write(BookFontSize);
             AppTheme.Save(bw);
             bw.Close();
         }
@@ -301,6 +308,7 @@ namespace ReadingIsFun
                 MarginPercent = br.ReadDouble();
                 LineSpacing = br.ReadInt32();
                 BookFont = br.ReadString();
+                BookFontSize = br.ReadInt32();
                 AppTheme = new Theme();
                 AppTheme.Load(br);
             }
@@ -308,6 +316,7 @@ namespace ReadingIsFun
             {
                 MarginPercent = MarginSmall;
                 LineSpacing = LineSpaceSmall;
+                BookFontSize = MediumFontSize;
                 BookFont = "Nunito Sans Regular";
                 AppTheme = new Theme();
             }
@@ -336,7 +345,7 @@ namespace ReadingIsFun
                     search = "Medium";
                     break;
                 case MarginBig:
-                    search = "Big";
+                    search = "Large";
                     break;
             }
             foreach (MenuItem item in marginsMenu.Items)
@@ -356,7 +365,7 @@ namespace ReadingIsFun
                     search = "Medium";
                     break;
                 case LineSpaceBig:
-                    search = "Big";
+                    search = "Large";
                     break;
             }
             foreach (MenuItem item in spacingMenu.Items)
@@ -375,13 +384,38 @@ namespace ReadingIsFun
                     break;
                 }
             }
+            switch (BookFontSize)
+            {
+                case TinyFontSize:
+                    search = "Tiny";
+                    break;
+                case SmallFontSize:
+                    search = "Small";
+                    break;
+                case MediumFontSize:
+                    search = "Medium";
+                    break;
+                case LargeFontSize:
+                    search = "Large";
+                    break;
+                case HugeFontSize:
+                    search = "Huge";
+                    break;
 
+            }
+            foreach (MenuItem item in fontSizesMenu.Items)
+            {
+                if (item.Header.Equals(search))
+                {
+                    item.IsChecked = true;
+                    break;
+                }
+            }
         }
-
-
+        
         private void ExpandMargins(object sender, EventArgs e)
         {
-            SetMargin(MarginPercent);
+                SetMargin(MarginPercent);
         }
         private void FontMenuItem_Checked(object sender, RoutedEventArgs e)
         {
@@ -396,6 +430,35 @@ namespace ReadingIsFun
             ((MenuItem)sender).IsChecked = true;
             SetFont(((string)((MenuItem)sender).Header));
 
+        }
+        private void FontSizeMenuItem_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (var menu in fontSizesMenu.Items)
+            {
+                if (((MenuItem)menu).IsChecked == true)
+                {
+                    ((MenuItem)menu).IsChecked = false;
+                    break;
+                }
+            }
+            ((MenuItem)sender).IsChecked = true;
+            switch (((MenuItem)sender).Header){
+                case "Tiny":
+                    SetFontSize(TinyFontSize);
+                    break;
+                case "Small":
+                    SetFontSize(SmallFontSize);
+                    break;
+                case "Medium":
+                    SetFontSize(MediumFontSize);
+                    break;
+                case "Large":
+                    SetFontSize(LargeFontSize);
+                    break;
+                case "Huge":
+                    SetFontSize(HugeFontSize);
+                    break;
+            }
         }
         private void MarginsMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -416,7 +479,7 @@ namespace ReadingIsFun
                 case "Medium":
                     SetMargin(MarginMedium);
                     break;
-                case "Big":
+                case "Large":
                     SetMargin(MarginBig);
                     break;
             }
@@ -441,7 +504,7 @@ namespace ReadingIsFun
                 case "Medium":
                     SetSpacing(LineSpaceMedium);
                     break;
-                case "Big":
+                case "Large":
                     SetSpacing(LineSpaceBig);
                     break;
             }
@@ -471,6 +534,16 @@ namespace ReadingIsFun
             MarginPercent = percent;
             double margin = percent * Width;
             ((FlowDocument)docReader.Document).PagePadding = new Thickness(margin, 10, margin, 10);
+            if(percent == MarginBig)
+            {
+                if (docReader.Zoom > 150)
+                    docReader.Zoom = 150;
+                docReader.MaxZoom = 150;
+            }
+            else
+            {
+                docReader.MaxZoom = 200;
+            }
         }
         private void SetSpacing(int spacing)
         {
@@ -485,6 +558,10 @@ namespace ReadingIsFun
             docReader.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookToolBarColor);
             docReader.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
         }
-        
+        private void SetFontSize(int size)
+        {
+            BookFontSize = size;
+            ((FlowDocument)docReader.Document).FontSize = size;
+        }
     }
 }
