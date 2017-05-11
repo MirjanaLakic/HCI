@@ -9,6 +9,10 @@
                 <MenuItem Header="_Open Book" Click="OpenMenuItem_Click" InputGestureText="Ctrl + O" ToolTip="Open menu to select a book to open."></MenuItem>
                 <MenuItem Header="_Recent Books" Name="recentBooksListMenu" ToolTip="List of recent books that have been open."></MenuItem>
                 <MenuItem Header="_All Books" Name="booksListMenu" ToolTip="All books ever open with this program."></MenuItem>
+                <MenuItem Header="ReadingIsFun _Help" ToolTip="Books containing helpfull informations about this program">
+                    <MenuItem Header="Reading options help" Click="MenuItemHelpOptions_Click" ToolTip="Description of reading options available"></MenuItem>
+                    <MenuItem Header="Commands help" Click="MenuItemHelpCommands_Click" ToolTip="List of commands with shortcuts"></MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Reading options">
                 <MenuItem Header="_Fullscreen" Click="fullscreen" InputGestureText="F4" ToolTip="Enters/Exits fullscreen">
@@ -27,10 +31,10 @@
                     <MenuItem Header="Libre Baskerville Bold" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
                     <MenuItem Header="Lora Regular" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
                     <MenuItem Header="Lora Bold" Click="FontMenuItem_Checked" ToolTip="Serif font"></MenuItem>
+                    <MenuItem Header="Lato Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
+                    <MenuItem Header="Lato Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
                     <MenuItem Header="Nunito Sans Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
                     <MenuItem Header="Nunito Sans Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
-                    <MenuItem Header="Raleway Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
-                    <MenuItem Header="Raleway Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
                     <MenuItem Header="Source Sans Pro Regular" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
                     <MenuItem Header="Source Sans Pro Bold" Click="FontMenuItem_Checked" ToolTip="Sans-serif font"></MenuItem>
                 </MenuItem>

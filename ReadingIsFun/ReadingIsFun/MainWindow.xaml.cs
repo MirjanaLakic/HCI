@@ -66,6 +66,10 @@ namespace ReadingIsFun
                     openBook(files[0]);
                 else
                 {
+                    if (CurrentBook != null)
+                    {
+                        Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber / (docReader.PageCount * 1.0);
+                    }
                     FlowDocument bookContent = new FlowDocument();
                     bookContent.ColumnWidth = double.MaxValue;
                     bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
@@ -93,6 +97,10 @@ namespace ReadingIsFun
             string path = (string)(((MenuItem)sender).CommandParameter);
             if (!File.Exists(path))
             {
+                if (CurrentBook != null)
+                {
+                    Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber / (docReader.PageCount * 1.0);
+                }
                 FlowDocument bookContent = new FlowDocument();
                 bookContent.ColumnWidth = double.MaxValue;
                 bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
@@ -161,7 +169,7 @@ namespace ReadingIsFun
             Dispatcher.Invoke(new Action(() => { }), DispatcherPriority.ContextIdle, null);
             int page = (int)(data.LastPage * docReader.PageCount);
             docReader.GoToPage(page);
-
+            docReader.Focus();
             return;
         }
         //Upravljanje prozorom
@@ -250,7 +258,7 @@ namespace ReadingIsFun
             foreach (var item in Library.Recent)
             {
                 MenuItem mi = new MenuItem();
-                mi.Header = item;
+                mi.Header = item.Split('\\').Last().Split('.')[0];
                 mi.CommandParameter = item;
                 mi.Click += OpenRecent;
                 mi.ToolTip = "Opens book at " + item;
@@ -460,6 +468,9 @@ namespace ReadingIsFun
                     break;
             }
         }
+
+        
+
         private void MarginsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             foreach (var menu in marginsMenu.Items)
@@ -562,6 +573,100 @@ namespace ReadingIsFun
         {
             BookFontSize = size;
             ((FlowDocument)docReader.Document).FontSize = size;
+        }
+        //Help menus
+        ///Reader options help
+        private void MenuItemHelpOptions_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentBook != null)
+            {
+                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber / (docReader.PageCount * 1.0);
+            }
+            FlowDocument bookContent = new FlowDocument();
+            bookContent.ColumnWidth = double.MaxValue;
+            bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
+            bookContent.AllowDrop = true;
+            bookContent.DragOver += doc_DragOver;
+            bookContent.Drop += doc_Drop;
+            bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + BookFont);
+            bookContent.LineHeight = LineSpacing;
+            bookContent.FontSize = BookFontSize;
+            bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+            bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+            double margin = MarginPercent * Width;
+            bookContent.PagePadding = new Thickness(margin, 10, margin, 10);
+            //
+            Paragraph p = new Paragraph();
+            p.Inlines.Add(new Run("Reading options help book\n"));
+            bookContent.Blocks.Add(p);
+            p = new Paragraph();
+            p.Inlines.Add(new Run("Theme\n\n"));
+            p.Inlines.Add(new Run("Original - Black letters on gray background. This theme is trying to emulate e-book readers.\n"));
+            p.Inlines.Add(new Run("Clasic - Black letters on light yellow background trying to emulate experience of reading a book.\n"));
+            p.Inlines.Add(new Run("Black - White letters on black background. This theme is trying to minimize stress on your eyes during night time.\n"));
+            p.Inlines.Add(new Run("Blue Light Filter - Dark brown letters on dark grey background, trying to reduce effects of blue light during night time.\n"));
+            bookContent.Blocks.Add(p);
+            p = new Paragraph();
+            p.Inlines.Add(new Run("Fonts\n\n"));
+            p.Inlines.Add(new Run("Serif fonts\n"));
+            p.Inlines.Add(new Run("Serif fonts are fonts that contain small line attached to the end of a stroke in a letter or symbol. These fonts are mostly optimized for reading on high pixel density screen. Serif fonts supported in our program are Alegreya, Libre Baskreville, and Lora.\n"));
+            p.Inlines.Add(new Run("Sans-Serif fonts\n"));
+            p.Inlines.Add(new Run("Sans-Serif fonts are fonts that do not contain small line attached to the end of a stroke in a letter or symbol. These fonts are mostly optimized for reading on low pixel density screen. Sans-Serif fonts supported in our program are Lato, NunitoSans, and Source Sans Pro.\n"));
+            p.Inlines.Add(new Run("\nFor every font there is a bold version provided to help with easier reading.\n"));
+            bookContent.Blocks.Add(p);
+            p = new Paragraph();
+            p.Inlines.Add(new Run("Font size, margins, line spacing\n\n"));
+            p.Inlines.Add(new Run("Font size alows you to customize size of letters. \n"));
+            p.Inlines.Add(new Run("Margins defines position from which text will start in each row, while keeping your text centered.\n"));
+            p.Inlines.Add(new Run("Line spacing helps you define density of text. With small line spacing there will be more lines of text displayed on screen.\n"));
+            bookContent.Blocks.Add(p);
+            //
+            docReader.Document = bookContent;
+            CurrentBook = null;
+            docReader.Focus();
+        }
+
+        ///Commands help
+        private void MenuItemHelpCommands_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentBook != null)
+            {
+                Library.BookList[CurrentBook].LastPage = docReader.MasterPageNumber / (docReader.PageCount * 1.0);
+            }
+            FlowDocument bookContent = new FlowDocument();
+            bookContent.ColumnWidth = double.MaxValue;
+            bookContent.Background = new SolidColorBrush(Color.FromArgb(255, 219, 219, 219));
+            bookContent.AllowDrop = true;
+            bookContent.DragOver += doc_DragOver;
+            bookContent.Drop += doc_Drop;
+            bookContent.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./resources/#" + BookFont);
+            bookContent.LineHeight = LineSpacing;
+            bookContent.FontSize = BookFontSize;
+            bookContent.Background = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookBackgroundColor);
+            bookContent.Foreground = (Brush)new BrushConverter().ConvertFromString(AppTheme.BookTypingColor);
+            double margin = MarginPercent * Width;
+            bookContent.PagePadding = new Thickness(margin, 10, margin, 10);
+            //
+            Paragraph p = new Paragraph();
+            p.Inlines.Add(new Run("Reading is fun commands list. Commands are listed in format: Command - shortcut;shortcut2;\n"));
+            bookContent.Blocks.Add(p);
+            p = new Paragraph();
+            string array = "Next page - arrow right; arrow down; scroll down; page down;\n"+
+                "Previous page - arrow left; arrow up; scroll up; page up;\n"+
+                "Go to first page - home;\n"+
+                "Go to last page - end;\n"+
+                "Enter fullscreen - F4;\n"+
+                "Exit fullscreen - Esc; F4;\n"+
+                "Zoom in - \'+\';Ctrl + \'+\';\n"+
+                "Zoom out - \'-\';Ctrl + \'-\';\n"+
+                "Open book menu - Ctrl + O;\n"+
+                "Open/Hide menu in fullscreen - Alt;\n";
+            p.Inlines.Add(new Run(array));
+            bookContent.Blocks.Add(p);
+            //
+            docReader.Document = bookContent;
+            CurrentBook = null;
+            docReader.Focus();
         }
     }
 }

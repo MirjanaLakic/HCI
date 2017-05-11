@@ -113,8 +113,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Raleway-Regular.ttf" />
-    <Resource Include="Resources\Raleway-Bold.ttf" />
+    <Resource Include="Resources\Lato-Bold.ttf" />
+    <Resource Include="Resources\Lato-Regular.ttf" />
     <Resource Include="Resources\SourceSansPro-Bold.ttf" />
     <Resource Include="Resources\NunitoSans-Bold.ttf" />
     <Resource Include="Resources\Lora-Bold.ttf" />
